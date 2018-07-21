@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <can-import from="bootstrap/less/bootstrap.less" />
+    <can-import from="~/styles.less" />
+    <can-import from="~/app" export-as="viewModel" />
+
+    {{! glue the homepage and the chat page }}
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+
+          {{#eq(page, 'chat')}}
+
+            <can-import from="~/messages/">
+              {{#if (isPending)}}
+                Loading ...
+              {{else}}
+                <chat-messages/>
+              {{/if}}
+            </can-import>
+
+            {{else}}
+
+            <can-import from="~/home.component">
+            {{#if (isPending)}}
+              Loading ...
+            {{else}}
+              <chat-home/>
+            {{/if}}
+            </can-import>
+
+          {{/eq}}
+        </div>
+      </div>
+    </div>
+
+
+    {{#switch env.NODE_ENV}}
+      {{#case "production"}}
+        <script src="{{joinBase('steal.production.js')}}"></script>
+      {{/case}}
+      {{#default}}
+        <script src="/node_modules/steal/steal.js"></script>
+      {{/default}}
+    {{/switch}}
+  </body>
+</html>
