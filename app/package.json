@@ -70,6 +70,7 @@
   "generator-donejs": "^2.1.0",
   "steal": "^1.6.5",
   "steal-less": "^1.2.2",
+  "steal-socket.io": "^4.1.0",
   "steal-stache": "^4.0.1"
  },
  "devDependencies": {

@@ -3,6 +3,7 @@ import DefineList from 'can-define/list/';
 import set from 'can-set';
 import superMap from 'can-connect/can/super-map/';
 import loader from '@loader';
+import io from 'steal-socket.io';
 
 const Message = DefineMap.extend({
   seal: false
@@ -27,5 +28,15 @@ Message.connection = superMap({
   name: 'message',
   algebra
 });
+
+const socket = io(loader.serviceBaseURL);
+
+// tell the realtime system that a message has been created
+socket.on('messages created', (message) => {Message.connection.createInstance(message)});
+// tell the realtime system that a message has changed
+socket.on('messages updated', (message) => {Message.connection.updateInstance(message)});
+// tell the realtime system that a message has been deleted
+socket.on('messages removed', (message) => {Message.connection.destroyInstance(message)});
+
 
 export default Message;
